@@ -1,8 +1,50 @@
+server:
+  port: 8082
+
 spring:
+  profiles:
+    active: qa
+
+---
+
+spring:
+  profiles: dev
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     url: jdbc:mysql://localhost:3306/sbbootcamp
+    password: '12345678'
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: 'true'
+welcome:
+  message: some config data..!
+
+---
+
+spring:
+  profiles: prod
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    url: jdbc:mysql://localhost:3306/sbbootcamp-prod
+    password: '12345678'
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: 'true'
+welcome:
+  message: some config data..!
+
+---
+
+spring:
+  profiles: qa
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    url: jdbc:mysql://localhost:3306/sbbootcamp-qa
     password: '12345678'
   jpa:
     hibernate:
