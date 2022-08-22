@@ -19,13 +19,13 @@ class CourseRepositoryTest {
     private CourseRepository repository;
 
     @Test
-    public void printCourses(){
+    public void printCourses() {
         List<Course> courses = repository.findAll();
         System.out.println(courses);
     }
 
     @Test
-    public void saveCourseWithTeacher(){
+    public void saveCourseWithTeacher() {
         Teacher teacher = Teacher.builder()
                 .firstName("Dimuthu")
                 .lastName("suranga")
@@ -41,12 +41,12 @@ class CourseRepositoryTest {
     }
 
     @Test
-    public void findAllPagination(){
+    public void findAllPagination() {
         Pageable firstPageWithThreeRecords =
-            PageRequest.of(0,3);
+                PageRequest.of(0, 3);
 
         Pageable secondPageWithTwoRecords =
-                PageRequest.of(2,2);
+                PageRequest.of(2, 2);
 
         List<Course> courses = repository.findAll(secondPageWithTwoRecords).getContent();
 
@@ -60,4 +60,26 @@ class CourseRepositoryTest {
 
     }
 
+    @Test
+    public void findAllSorting() {
+        Pageable sortByTitle = PageRequest.of(0, 4, Sort.by("title"));
+
+        Pageable sortByCreditDesc = PageRequest.of(0, 2, Sort.by("credit").descending());
+
+        Pageable sortByTitleAndCreditDesc = PageRequest.of(0, 2, Sort.by("title").descending().and(Sort.by("credit")));
+
+        List<Course> courses = repository.findAll(sortByTitle).getContent();
+
+        System.out.println("Sort by title : " + courses);
+    }
+
+
+    @Test
+    public void findByTitleContaining(){
+        Pageable firstPageTenRecords = PageRequest.of(0,10);
+
+        List<Course> courses = repository.findByTitleContaining("D",firstPageTenRecords).getContent();
+
+        System.out.println(courses);
+    }
 }
