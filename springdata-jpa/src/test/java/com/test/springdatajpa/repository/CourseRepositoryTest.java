@@ -1,6 +1,7 @@
 package com.test.springdatajpa.repository;
 
 import com.test.springdatajpa.entity.Course;
+import com.test.springdatajpa.entity.Student;
 import com.test.springdatajpa.entity.Teacher;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,5 +82,31 @@ class CourseRepositoryTest {
         List<Course> courses = repository.findByTitleContaining("D",firstPageTenRecords).getContent();
 
         System.out.println(courses);
+    }
+
+    @Test
+    public void saveCourseWithStudentAndTeacher() {
+
+        Teacher teacher = Teacher.builder()
+                .firstName("Lizze")
+                .lastName("Morgan")
+                .build();
+
+        Student student = Student.builder()
+                .firstName("Abhishek")
+                .lastName("Singh")
+                .emailId("abhishek@gmail.com")
+                .build();
+
+        Course course = Course
+                .builder()
+                .title("AI")
+                .credit(12)
+                .teacher(teacher)
+                .build();
+
+        course.addStudents(student);
+
+        repository.save(course);
     }
 }
